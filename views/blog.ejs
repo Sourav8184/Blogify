@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- add Head partials -->
+    <%- include("./partials/head") %>
+    <title>Blog page</title>
+    <style>
+      .commentImg {
+        display: flex;
+        align-items: center;
+        gap: 30px;
+      }
+    </style>
+  </head>
+  <body>
+    <%- include("./partials/navbar") %>
+    <div class="container mt-4">
+      <h1><%= blog.title %></h1>
+      <img
+        src="<%= blog.coverImageURL %>"
+        alt="BackGround Image"
+        width="700px"
+        class="mt-4" />
+      <br />
+      <pre class="mt-4"><h4><%= blog.body %></h4></pre>
+    </div>
+    <div class="container mt-4">
+      <img src="<%= blog.createdBy.profileImage %>" width="100px" />
+      <%= blog.createdBy.fullName %>
+    </div>
+
+    <!-- Comment Section on the blog page -->
+
+    <div class="container mt-3">
+      <h1>Comment <%= comments.length %></h1>
+      <% if (locals.user) { %>
+      <form action="/blog/comment/<%= blog._id %>" method="post">
+        <div class="mb-3">
+          <input
+            type="text"
+            name="content"
+            class="form-control"
+            placeholder="Comment Section" />
+          <button class="btn btn-lg btn-primary" type="submit">add</button>
+        </div>
+      </form>
+
+      <% } %>
+      <div class="mt-3">
+        <% comments.forEach(comment => { %>
+        <div>
+          <div class="commentImg mt-4">
+            <img src="<%= comment.createdBy.profileImage %>" width="100px" />
+            <pre><%= comment.content %></pre>
+          </div>
+          <%= comment.createdBy.fullName %>
+        </div>
+        <% }) %>
+      </div>
+    </div>
+    <!-- add Script partials -->
+    <%- include("./partials/scripts") %>
+  </body>
+</html>
